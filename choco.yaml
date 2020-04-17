@@ -1,0 +1,33 @@
+- hosts: Ella-PC
+  gather_facts: true
+  vars:
+    wake_server: localhost
+    macaddress: "{{ (ansible_interfaces|first).macaddress|default(mac|default('')) }}"
+
+  tasks:
+  - name: wake up machines.
+    include: tasks/wol.yaml
+  - name: install steam.
+    win_chocolatey:
+      name: steam
+      state: present
+  - name: install epic games launcher.
+    win_chocolatey:
+      name: epicgameslauncher
+      state: present
+  - name: install spotify.
+    win_chocolatey:
+      name: spotify
+      state: present
+  # - name: install chrome.
+  #   win_chocolatey:
+  #     name: chrome
+  #     state: present
+  - name: install twitch.
+    win_chocolatey:
+      name: twitch
+      state: present    
+  - name: install twitch.
+    win_chocolatey:
+      name: twitch
+      state: present

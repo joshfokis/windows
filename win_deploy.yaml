@@ -1,0 +1,55 @@
+- hosts: Ella-PC
+  gather_facts: false
+  tasks:
+  - name: Create Folder.
+    win_file:
+      path: C:\\Temp\\
+      creates_path: C:\\Temp\\
+      state: directory
+
+  - name: copy pstools zip
+    win_copy:
+      src: PSTools.zip
+      dest: C:\\Temp\\
+    when: ACTION == "Install"
+
+  - name: Copy game installer.
+    win_copy:
+      src: "{{name}}.exe"
+      dest: C:\\Temp\\
+    when: ACTION == "Install"
+  
+  - name: Copy game installer bin.
+    win_copy:
+      src: "{{name}}.bin"
+      dest: C:\\Temp\\
+    when: ACTION == "Install"
+
+  - name: copy installer
+    win_template:
+      src: templates/installer.bat.j2
+      dest: C:\\Temp\\
+    when: ACTION == "Install"
+
+  - name: unzip pstools
+    win_unzip:
+      src: C:\\Temp\\PSTools.zip
+      dest: C:\\Temp\\
+    when: ACTION == "Install"
+
+  - name: Lauch game installer script.
+    win_psexec:
+      command: C:\\Temp\\installer.bat
+      # arguements: '/verysilent /dir="C:\GOG Games\Stardew Valley" /NORESTART /CLOSEAPPLICATIONS'
+      executable: C:\\Temp\\psexec.exe
+      # hostnames: win
+      wait: yes
+      nobanner: yes
+      # creates_path: C:\\GOG Games\\Stardew Valley\\
+    when: ACTION == "Install"
+
+  - name: Clean up.
+    win_file:
+      path: C:\\Temp\\
+      state: absent
+    when: ACTION == "Clean"

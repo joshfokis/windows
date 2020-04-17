@@ -1,0 +1,4 @@
+
+- name: 'Send magic Wake-On-Lan packet to turn on individual systems via gateway'
+  win_wakeonlan:
+    mac: '{{ macaddress }}' #28:b2:bd:76:14:ca #

@@ -1,0 +1,7 @@
+@ECHO OFF
+
+REM Use /COMPONENTS if unwanted apps are installed using a default install.
+REM /NOICONS does NOT seem to work/apply. startmenu is still created.
+
+PUSHD %~dp0
+{{name}}.exe /verysilent /dir="D:\GOG Games\{{ name }}" /NORESTART /CLOSEAPPLICATIONS
